@@ -82,3 +82,10 @@ def move_to_trash(request, mail_id):
     mail.status = "trash"  # меняем статус на корзину
     mail.save()
     return redirect("index")
+
+
+def delete(request, mail_id):
+    """Удаление (из корзины)."""
+    mail = get_object_or_404(Mail, pk=mail_id)
+    mail.delete()
+    return redirect("index")

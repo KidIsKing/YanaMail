@@ -31,3 +31,10 @@ class Mail(models.Model):
         default="",  # начальное значение, которое будет перезаписано позже
         verbose_name="Начальный статус"
         )
+
+    class Meta:
+        verbose_name = "Письма"
+        verbose_name_plural = "Письма"  # иначе "Письмаs"
+
+    def __str__(self):
+        return f"from {self.sender} to {self.recipient} -> {self.subject}"

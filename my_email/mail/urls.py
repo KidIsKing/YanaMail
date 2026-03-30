@@ -16,6 +16,9 @@ urlpatterns = [
     path(
         "email/<int:mail_id>/trash/", views.move_to_trash, name="move_to_trash"
     ),  # в корзину
+    path(
+        "email/<int:mail_id>/delete/", views.delete, name="delete"
+    ),  # удаление
     path("mail/<int:mail_id>/", views.mail, name="mail"),  # страница конкретного письма
     path("create_mail/", views.create_mail, name="create_mail"),  # форма создания письма
 ]
