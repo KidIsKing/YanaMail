@@ -1,0 +1,39 @@
+{% load static %}
+
+<header>
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        ЯнаПочтамт
+      </a>
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Входящие
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Исходящие
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Корзина
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Архив
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_mail' %}">
+            Написать письмо
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

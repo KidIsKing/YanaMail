@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if mails_list %}
+    <ul>
+      {% for mail in mails_list %}
+        <li>
+          <!-- Обращаемся к полям объекта mail -->
+          <strong>Тема:</strong> {{ mail.subject }}<br>
+          <strong>От:</strong> {{ mail.sender }}<br>
+          <strong>Кому:</strong> {{ mail.recipient }}<br>
+          <strong>Дата:</strong> {{ mail.created_at }}<br>
+          <p>{{ mail.text }}</p>
+          <hr>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Писем пока нет.</p>
+  {% endif %}
+{% endblock content %}
