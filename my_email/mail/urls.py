@@ -7,6 +7,9 @@ urlpatterns = [
     path("sent/", views.sent, name="sent"),  # исходящие
     path("trash/", views.trash, name="trash"),  # корзина
     path("archive/", views.archive, name="archive"),  # архив
+    path(
+        "email/<int:mail_id>/archive/", views.move_to_archive, name="move_to_archive"
+    ),  # в архив
     path("mail/<int:mail_id>/", views.mail, name="mail"),  # страница конкретного письма
     path("create_mail/", views.create_mail, name="create_mail"),  # форма создания письма
 ]

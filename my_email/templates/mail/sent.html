@@ -22,9 +22,10 @@
           <p class="card-text"><a href="{% url 'mail' mail.id %}">Читать полностью</a>
         </div>
         <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-outline-secondary" title="В архив">
-            <i class="bi bi-archive"></i> Архивировать
-          </button>
+          <form method="post" action="{% url 'move_to_archive' mail.id %}">
+            {% csrf_token %}
+            <button type="submit" title="Архивировать">Архивировать</button>
+          </form>
           <button type="button" class="btn btn-sm btn-outline-danger" title="В корзину">
             <i class="bi bi-trash"></i> В корзину
           </button>

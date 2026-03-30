@@ -56,3 +56,11 @@ def create_mail(request):
         form = MailForm()
     context = {"form": form}
     return render(request, template_name, context)
+
+
+def move_to_archive(request, mail_id):
+    """Отправка в архив."""
+    mail = get_object_or_404(Mail, pk=mail_id)
+    mail.status = "archive"
+    mail.save()
+    return redirect("index")
