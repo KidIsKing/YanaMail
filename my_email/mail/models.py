@@ -3,8 +3,7 @@ from django.contrib.auth import get_user_model
 
 
 STATUSES = (
-    "unread",  # непрочитанные входящие
-    "read",  # прочитанные входящие
+    "inbox",  # входящие
     "sent",  # исходящие
     "trash",  # корзина
     "archive"  # архив
@@ -24,6 +23,6 @@ class Mail(models.Model):
         )
     status = models.SlugField(
         max_length=50,
-        default=STATUSES[2],  # по умолчанию - "sent"
+        default=STATUSES[1],  # по умолчанию - "sent"
         verbose_name="Статус"
         )

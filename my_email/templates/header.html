@@ -11,27 +11,27 @@
         <ul class="nav  nav-pills">
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'index' %} text-white {% endif %}" href="{% url 'index' %}">
-              Входящие
+              <span class="fw-bold">Входящие</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'sent' %} text-white {% endif %}" href="{% url 'sent' %}">
-              Исходящие
+              <span class="fw-bold">Исходящие</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'trash' %} text-white {% endif %}" href="{% url 'trash' %}">
-              Корзина
+              <span class="fw-bold">Корзина</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'archive' %} text-white {% endif %}" href="{% url 'archive' %}">
-              Архив
+              <span class="fw-bold">Архив</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'create_mail' %} text-white {% endif %}" href="{% url 'create_mail' %}">
-              Написать письмо
+              <span class="fw-bold">Написать письмо</span>
             </a>
           </li>
         </ul>

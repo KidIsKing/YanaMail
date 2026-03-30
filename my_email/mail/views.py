@@ -7,7 +7,7 @@ from .forms import MailForm
 def index(request):
     """Главная страница со списком входящих писем."""
     template_name = "mail/index.html"
-    mails_list = Mail.objects.all().order_by("-created_at")
+    mails_list = Mail.objects.filter(status="inbox").order_by("-created_at")
     context = {"mails_list": mails_list}
     return render(request, template_name, context)
 
