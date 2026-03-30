@@ -34,6 +34,27 @@
               <span class="fw-bold">Написать письмо</span>
             </a>
           </li>
+
+          {% if user.is_authenticated %}
+            <span class="navbar-text">Пользователь: <b>{{ user.username }}</b></span>
+            <li class="nav-item">
+              <a class="nav-link {% if view_name == 'password_change' %} active {% endif %}"
+                href="{% url 'password_change' %}">Изменить пароль</a>
+            </li>
+            <li class="nav-item">
+              <form class="nav-link" method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="nav-link btn btn-link p-0 text-decoration-none">Выйти</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link{% if view_name == 'login' %} active {% endif %}" href="{% url 'login' %}">Войти</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link{% if view_name == 'registration' %} active {% endif %}" href="{% url 'registration' %}">Регистрация</a>
+            </li>
+          {% endif %}
         </ul>
       {% endwith %}
     </div>
