@@ -1,37 +1,54 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
-from .models import Mail
+from .models import Mail, User
 from .forms import MailForm
 
 
+@login_required
 def index(request):
     """Главная страница со списком входящих писем."""
     template_name = "mail/index.html"
-    mails_list = Mail.objects.filter(status="inbox").order_by("-created_at")
+    mails_list = Mail.objects.filter(
+        recipient_user=request.user,
+        status="inbox"
+        ).order_by("-created_at")
     context = {"mails_list": mails_list}
     return render(request, template_name, context)
 
 
+@login_required
 def sent(request):
     """Cтраница со списком отправленных писем."""
     template_name = "mail/sent.html"
-    mails_sent_list = Mail.objects.filter(status="sent").order_by("-created_at")
+    mails_sent_list = Mail.objects.filter(
+        sender_user=request.user,
+        status="sent"
+        ).order_by("-created_at")
     context = {"mails_sent_list": mails_sent_list}
     return render(request, template_name, context)
 
 
+@login_required
 def trash(request):
     """Cтраница с корзиной."""
     template_name = "mail/trash.html"
-    mails_trash_list = Mail.objects.filter(status="trash").order_by("-created_at")
+    mails_trash_list = Mail.objects.filter(
+        recipient_user=request.user,
+        status="trash"
+        ).order_by("-created_at")
     context = {"mails_trash_list": mails_trash_list}
     return render(request, template_name, context)
 
 
+@login_required
 def archive(request):
     """Cтраница с архивом."""
     template_name = "mail/archive.html"
-    mails_archive_list = Mail.objects.filter(status="archive").order_by("-created_at")
+    mails_archive_list = Mail.objects.filter(
+        recipient_user=request.user,
+        status="archive"
+        ).order_by("-created_at")
     context = {"mails_archive_list": mails_archive_list}
     return render(request, template_name, context)
 
@@ -50,7 +67,34 @@ def create_mail(request):
     if request.method == "POST":
         form = MailForm(request.POST)
         if form.is_valid():
-            form.save()
+            recipient_username = form.cleaned_data["recipient"]
+            recipient_user = User.objects.get(username=recipient_username)
+
+            # Письмо для отправителя (для вкладки "Исходящие")
+            sent_mail = Mail(
+                sender=request.user.username,
+                recipient=recipient_username,
+                subject=form.cleaned_data["subject"],
+                text=form.cleaned_data["text"],
+                status="sent",
+                is_read=True,
+                sender_user=request.user,
+                recipient_user=recipient_user
+            )
+            sent_mail.save()
+
+            # Письмо для получателя (для вкладки "Входящие")
+            received_email = Mail(
+                sender=request.user.username,
+                recipient=recipient_username,
+                subject=form.cleaned_data["subject"],
+                text=form.cleaned_data["text"],
+                status="inbox",
+                is_read=False,
+                sender_user=request.user,
+                recipient_user=recipient_user
+            )
+            received_email.save()
             return redirect("index")
     else:
         form = MailForm()

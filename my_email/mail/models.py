@@ -31,6 +31,23 @@ class Mail(models.Model):
         default="",  # начальное значение, которое будет перезаписано позже
         verbose_name="Начальный статус"
         )
+    is_read = models.BooleanField(default=True, verbose_name="Статус прочтения")
+
+    # Поля для отправки писем между пользователями
+    sender_user = models.ForeignKey(
+        User,
+        related_name="sent_emails",
+        verbose_name=("Отправитель(связ.)"),
+        on_delete=models.CASCADE,
+        null=True
+        )
+    recipient_user = models.ForeignKey(
+        User,
+        related_name="received_emails",
+        verbose_name=("Получатель(связ.)"),
+        on_delete=models.CASCADE,
+        null=True
+        )
 
     class Meta:
         verbose_name = "Письма"
