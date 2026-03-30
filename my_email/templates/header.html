@@ -7,33 +7,36 @@
         <img src="{% static 'logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
         ЯнаПочтамт
       </a>
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Входящие
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Исходящие
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Корзина
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Архив
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'create_mail' %}">
-            Написать письмо
-          </a>
-        </li>
-      </ul>
+      {% with request.resolver_match.view_name as view_name %}
+        <ul class="nav  nav-pills">
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'index' %} text-white {% endif %}" href="{% url 'index' %}">
+              Входящие
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'sent' %} text-white {% endif %}" href="{% url 'sent' %}">
+              Исходящие
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'trash' %} text-white {% endif %}" href="{% url 'trash' %}">
+              Корзина
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'archive' %} text-white {% endif %}" href="{% url 'archive' %}">
+              Архив
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'create_mail' %} text-white {% endif %}" href="{% url 'create_mail' %}">
+              Написать письмо
+            </a>
+          </li>
+        </ul>
+      {% endwith %}
     </div>
   </nav>
 </header>
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card border-dark mb-12" style="margin: 20px">
+    <div class="card-header">
+      <span class="fw-bold">Отправитель: </span>{{ mail.sender }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">
+        <span class="fw-bold">Тема: </span>{{ mail.subject }}
+      </h5>
+      <p class="card-text">
+        {{ mail.text }}
+      </p>
+      <p class="card-text">
+        <span class="fw-bold">Дата: </span>{{ mail.created_at }}
+      </p>
+    </div>
+  </div>
+{% endblock content %}

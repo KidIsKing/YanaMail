@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 
+STATUSES = (
+    "unread",  # непрочитанные входящие
+    "read",  # прочитанные входящие
+    "sent",  # исходящие
+    "trash",  # корзина
+    "archive"  # архив
+)
+
 User = get_user_model()
 
 
@@ -13,4 +21,9 @@ class Mail(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,  # сохранить дату создания
         verbose_name="Дата создания"
+        )
+    status = models.SlugField(
+        max_length=50,
+        default=STATUSES[2],  # по умолчанию - "sent"
+        verbose_name="Статус"
         )
