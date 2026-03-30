@@ -58,9 +58,27 @@ def create_mail(request):
     return render(request, template_name, context)
 
 
+def return_from(request, mail_id):
+    """Возвращение из архива или корзины."""
+    mail = get_object_or_404(Mail, pk=mail_id)
+    mail.status = mail.old_status  # восстанавливаем начальный статус
+    mail.save()
+    return redirect("index")
+
+
 def move_to_archive(request, mail_id):
     """Отправка в архив."""
     mail = get_object_or_404(Mail, pk=mail_id)
-    mail.status = "archive"
+    mail.old_status = mail.status  # сначала сохраняем текущий статус
+    mail.status = "archive"  # меняем статус на архив
+    mail.save()
+    return redirect("index")
+
+
+def move_to_trash(request, mail_id):
+    """Отправка в корзину."""
+    mail = get_object_or_404(Mail, pk=mail_id)
+    mail.old_status = mail.status  # сначала сохраняем текущий статус
+    mail.status = "trash"  # меняем статус на корзину
     mail.save()
     return redirect("index")

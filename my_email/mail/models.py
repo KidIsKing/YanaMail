@@ -26,3 +26,8 @@ class Mail(models.Model):
         default=STATUSES[1],  # по умолчанию - "sent"
         verbose_name="Статус"
         )
+    old_status = models.SlugField(
+        max_length=50,
+        default="",  # начальное значение, которое будет перезаписано позже
+        verbose_name="Начальный статус"
+        )

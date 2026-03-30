@@ -26,9 +26,10 @@
             {% csrf_token %}
             <button type="submit" title="Архивировать">Архивировать</button>
           </form>
-          <button type="button" class="btn btn-sm btn-outline-danger" title="В корзину">
-            <i class="bi bi-trash"></i> В корзину
-          </button>
+          <form method="post" action="{% url 'move_to_trash' mail.id %}">
+            {% csrf_token %}
+            <button type="submit" title="В корзину">В корзину</button>
+          </form>
         </div>
       </div>
     {% endfor %}

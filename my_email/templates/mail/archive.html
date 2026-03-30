@@ -21,6 +21,12 @@
           </p>
           <p class="card-text"><a href="{% url 'mail' mail.id %}">Читать полностью</a>
         </div>
+        <div class="btn-group">
+          <form method="post" action="{% url 'return_from' mail.id %}">
+            {% csrf_token %}
+            <button type="submit" title="Разархивировать">Разархивировать</button>
+          </form>
+        </div>
       </div>
     {% endfor %}
   {% else %}
