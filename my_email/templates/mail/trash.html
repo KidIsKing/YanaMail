@@ -24,11 +24,11 @@
         <div class="btn-group">
           <form method="post" action="{% url 'return_from' mail.id %}">
             {% csrf_token %}
-            <button type="submit" title="Восстановить">Восстановить</button>
+            <button type="submit" title="Архивировать" class="btn btn-outline-success">Восстановить</button>
           </form>
           <form method="post" action="{% url 'delete' mail.id %}">
             {% csrf_token %}
-            <button type="submit" title="Удалить навсегда">Удалить навсегда</button>
+            <button type="submit" class="btn btn-outline-danger">Удалить навсегда</button>
           </form>
         </div>
       </div>

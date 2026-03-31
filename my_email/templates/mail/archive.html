@@ -24,7 +24,7 @@
         <div class="btn-group">
           <form method="post" action="{% url 'return_from' mail.id %}">
             {% csrf_token %}
-            <button type="submit" title="Разархивировать">Разархивировать</button>
+            <button type="submit" title="Разархивировать" class="btn btn-outline-secondary">Разархивировать</button>
           </form>
         </div>
       </div>

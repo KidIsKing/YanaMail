@@ -24,11 +24,11 @@
         <div class="btn-group">
           <form method="post" action="{% url 'move_to_archive' mail.id %}">
             {% csrf_token %}
-            <button type="submit" title="Архивировать">Архивировать</button>
+            <button type="submit" title="Архивировать" class="btn btn-outline-secondary">Архивировать</button>
           </form>
           <form method="post" action="{% url 'move_to_trash' mail.id %}">
             {% csrf_token %}
-            <button type="submit" title="В корзину">В корзину</button>
+            <button type="submit" class="btn btn-outline-danger">В корзину</button>
           </form>
         </div>
       </div>

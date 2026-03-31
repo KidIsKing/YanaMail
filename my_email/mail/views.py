@@ -19,7 +19,7 @@ def index(request):
 
 @login_required
 def sent(request):
-    """Cтраница со списком отправленных писем."""
+    """Cтраница со списком исходящих писем."""
     template_name = "mail/sent.html"
     mails_sent_list = Mail.objects.filter(
         sender_user=request.user,
@@ -34,7 +34,6 @@ def trash(request):
     """Cтраница с корзиной."""
     template_name = "mail/trash.html"
     mails_trash_list = Mail.objects.filter(
-        recipient_user=request.user,
         status="trash"
         ).order_by("-created_at")
     context = {"mails_trash_list": mails_trash_list}
@@ -46,13 +45,13 @@ def archive(request):
     """Cтраница с архивом."""
     template_name = "mail/archive.html"
     mails_archive_list = Mail.objects.filter(
-        recipient_user=request.user,
         status="archive"
         ).order_by("-created_at")
     context = {"mails_archive_list": mails_archive_list}
     return render(request, template_name, context)
 
 
+@login_required
 def mail(request, mail_id):
     """Страница конкретного письма."""
     template_name = "mail/mail.html"
@@ -61,6 +60,7 @@ def mail(request, mail_id):
     return render(request, template_name, context)
 
 
+@login_required
 def create_mail(request):
     """Страница с формой создания письма."""
     template_name = "mail/create_mail.html"
@@ -69,6 +69,9 @@ def create_mail(request):
         if form.is_valid():
             recipient_username = form.cleaned_data["recipient"]
             recipient_user = User.objects.get(username=recipient_username)
+
+            if request.user == recipient_user:
+                print("Пользователи совпадают")
 
             # Письмо для отправителя (для вкладки "Исходящие")
             sent_mail = Mail(
@@ -102,6 +105,7 @@ def create_mail(request):
     return render(request, template_name, context)
 
 
+@login_required
 def return_from(request, mail_id):
     """Возвращение из архива или корзины."""
     mail = get_object_or_404(Mail, pk=mail_id)
@@ -110,6 +114,7 @@ def return_from(request, mail_id):
     return redirect("index")
 
 
+@login_required
 def move_to_archive(request, mail_id):
     """Отправка в архив."""
     mail = get_object_or_404(Mail, pk=mail_id)
@@ -119,6 +124,7 @@ def move_to_archive(request, mail_id):
     return redirect("index")
 
 
+@login_required
 def move_to_trash(request, mail_id):
     """Отправка в корзину."""
     mail = get_object_or_404(Mail, pk=mail_id)
@@ -128,6 +134,7 @@ def move_to_trash(request, mail_id):
     return redirect("index")
 
 
+@login_required
 def delete(request, mail_id):
     """Удаление (из корзины)."""
     mail = get_object_or_404(Mail, pk=mail_id)
