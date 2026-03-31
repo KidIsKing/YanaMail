@@ -56,6 +56,10 @@ def mail(request, mail_id):
     """Страница конкретного письма."""
     template_name = "mail/mail.html"
     mail = get_object_or_404(Mail, pk=mail_id)
+
+    mail.is_read = True
+    mail.save()
+
     context = {"mail": mail}
     return render(request, template_name, context)
 
