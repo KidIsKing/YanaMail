@@ -30,7 +30,10 @@ def sent(request):
         sender_user=request.user,
         status="sent"
         ).order_by("-created_at")
-    context = {"mails_sent_list": mails_sent_list}
+    paginator = Paginator(mails_sent_list, 9)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {"page_obj": page_obj}
     return render(request, template_name, context)
 
 
@@ -42,7 +45,10 @@ def trash(request):
         Q(recipient_user=request.user) | Q(sender_user=request.user),
         status="trash"
         ).order_by("-created_at")
-    context = {"mails_trash_list": mails_trash_list}
+    paginator = Paginator(mails_trash_list, 9)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {"page_obj": page_obj}
     return render(request, template_name, context)
 
 
@@ -54,7 +60,10 @@ def archive(request):
         Q(recipient_user=request.user) | Q(sender_user=request.user),
         status="archive"
         ).order_by("-created_at")
-    context = {"mails_archive_list": mails_archive_list}
+    paginator = Paginator(mails_archive_list, 9)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {"page_obj": page_obj}
     return render(request, template_name, context)
 
 

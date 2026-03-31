@@ -2,9 +2,9 @@
 
 {% block content %}
   <h1>Список исходящих писем</h1>
-  {% if mails_sent_list %}
+  {% if page_obj %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      {% for mail in mails_sent_list %}
+      {% for mail in page_obj %}
         <div class="col">
           <div class="card border-secondary mb-3 h-100">
             <div class="card-header">
