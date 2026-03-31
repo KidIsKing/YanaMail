@@ -13,6 +13,7 @@ User = get_user_model()
 
 
 class Mail(models.Model):
+    """Модель письма."""
     sender = models.CharField(max_length=100, verbose_name="Отправитель")
     recipient = models.CharField(max_length=100, verbose_name="Получатель")
     subject = models.CharField(max_length=100, verbose_name="Тема")
@@ -31,15 +32,19 @@ class Mail(models.Model):
         default="",  # начальное значение, которое будет перезаписано позже
         verbose_name="Начальный статус"
         )
-    is_read = models.BooleanField(default=True, verbose_name="Статус прочтения")
+    is_read = models.BooleanField(
+        default=True,
+        verbose_name="Статус прочтения"
+        )
 
     # Поля для отправки писем между пользователями
     sender_user = models.ForeignKey(
         User,
         related_name="sent_emails",
         verbose_name=("Отправитель(связ.)"),
+        # Если пользователь будет удалён, то и все его письма тоже
         on_delete=models.CASCADE,
-        null=True
+        null=True  # без этого проблема с makemigrations
         )
     recipient_user = models.ForeignKey(
         User,
@@ -54,4 +59,5 @@ class Mail(models.Model):
         verbose_name_plural = "Письма"  # иначе "Письмаs"
 
     def __str__(self):
+        """Корректное отображение списка с письмами в админке."""
         return f"from {self.sender} to {self.recipient} -> {self.subject}"

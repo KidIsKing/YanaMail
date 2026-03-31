@@ -122,6 +122,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static_dev',
 ]
 
+# Переадрисовка после входа в профиль
 LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = "index" 
-LOGIN_URL = 'login'
+# LOGOUT_REDIRECT_URL = "index" - опционально
+LOGIN_URL = 'login'  # пользовательский эндпоит для аутентификации

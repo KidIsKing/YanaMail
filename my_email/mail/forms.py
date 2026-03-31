@@ -4,8 +4,11 @@ from .models import Mail
 
 
 class MailForm(forms.ModelForm):
+    """Форма создания письма."""
     recipient = forms.CharField(
-        label="Кому", max_length=100, help_text="Введите имя пользователя получателя"
+        label="Кому",
+        max_length=100,
+        help_text="Введите имя пользователя получателя"
     )
 
     class Meta:
