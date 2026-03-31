@@ -5,11 +5,10 @@
   {% if mails_list %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for mail in mails_list %}
-        
         <!--Если письмо не прочитано.-->
         {% if mail.is_read == False %}
           <div class="col">
-            <div class="card border-dark mb-3 h-100">
+            <div class="card border-secondary mb-3 h-100" style="background-color: lightskyblue">
               <div class="card-header">
                 <span class="fw-bold">Отправитель: </span>{{ mail.sender }}<br>
               </div>
@@ -27,16 +26,25 @@
                   <a href="{% url 'mail' mail.id %}">Читать полностью</a>
                 </p>
               </div>
+              <div class="btn-group">
+                  <form method="post" action="{% url 'move_to_archive' mail.id %}">
+                    {% csrf_token %}
+                    <button type="submit" title="Архивировать" class="btn btn-outline-secondary">Архивировать</button>
+                  </form>
+                  <form method="post" action="{% url 'move_to_trash' mail.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">В корзину</button>
+                  </form>
+                </div>
             </div>
           </div>
-
         {% else %}
           <div class="col">
-            <div class="card border-light mb-3 h-100">
+            <div class="card border-secondary mb-3 h-100">
               <div class="card-header">
                 <span class="fw-bold">Отправитель: </span>{{ mail.sender }}<br>
               </div>
-              <div class="card-body text-dark">
+              <div class="card-body text-secondary">
                 <h5 class="card-title">
                   <span class="fw-bold">Тема: </span>{{ mail.subject }}
                 </h5>
@@ -50,6 +58,16 @@
                   <a href="{% url 'mail' mail.id %}">Читать полностью</a>
                 </p>
               </div>
+                <div class="btn-group">
+                  <form method="post" action="{% url 'move_to_archive' mail.id %}">
+                    {% csrf_token %}
+                    <button type="submit" title="Архивировать" class="btn btn-outline-secondary">Архивировать</button>
+                  </form>
+                  <form method="post" action="{% url 'move_to_trash' mail.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">В корзину</button>
+                  </form>
+                </div>
             </div>
           </div>
         {% endif %}
