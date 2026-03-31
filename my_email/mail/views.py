@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q  # фильтрация пользователей для архива и корзины
 
 from .models import Mail, User
 from .forms import MailForm
@@ -38,6 +39,7 @@ def trash(request):
     """Cтраница с корзиной."""
     template_name = "mail/trash.html"
     mails_trash_list = Mail.objects.filter(
+        Q(recipient_user=request.user) | Q(sender_user=request.user),
         status="trash"
         ).order_by("-created_at")
     context = {"mails_trash_list": mails_trash_list}
@@ -49,6 +51,7 @@ def archive(request):
     """Cтраница с архивом."""
     template_name = "mail/archive.html"
     mails_archive_list = Mail.objects.filter(
+        Q(recipient_user=request.user) | Q(sender_user=request.user),
         status="archive"
         ).order_by("-created_at")
     context = {"mails_archive_list": mails_archive_list}
@@ -129,7 +132,7 @@ def move_to_archive(request, mail_id):
     mail.old_status = mail.status  # сначала сохраняем текущий статус
     mail.status = "archive"  # меняем статус на архив
     mail.save()
-    return redirect("index")
+    return redirect("archive")
 
 
 @login_required
@@ -139,7 +142,7 @@ def move_to_trash(request, mail_id):
     mail.old_status = mail.status  # сначала сохраняем текущий статус
     mail.status = "trash"  # меняем статус на корзину
     mail.save()
-    return redirect("index")
+    return redirect("trash")
 
 
 @login_required
@@ -147,4 +150,4 @@ def delete(request, mail_id):
     """Удаление (из корзины)."""
     mail = get_object_or_404(Mail, pk=mail_id)
     mail.delete()
-    return redirect("index")
+    return redirect("trash")
