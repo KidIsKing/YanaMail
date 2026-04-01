@@ -1,13 +1,14 @@
 from django import forms
 
-from .models import Mail
+from .models import Mail, User
 
 
 class MailForm(forms.ModelForm):
     """Форма создания письма."""
-    recipient = forms.CharField(
+    recipient = forms.ModelChoiceField(
         label="Кому",
-        max_length=100,
+        queryset=User.objects.all(),
+        to_field_name="username",
         help_text="Введите имя пользователя получателя"
     )
 
